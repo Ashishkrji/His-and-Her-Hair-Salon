@@ -1,0 +1,6 @@
+{
+  "name": "His & Her Hair Salon",
+  "description": "Premium Salon, Bridal Studio & Professional Beauty Academy in Ludhiana",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
