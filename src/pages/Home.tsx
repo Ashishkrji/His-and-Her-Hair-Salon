@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Star, CheckCircle, ArrowRight, Sparkles, Scissors, Instagram, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardImage, CardContent } from '@/components/ui/Card';
+import { AccordionItem } from '@/components/ui/Accordion';
 
 function Hero() {
   return (
@@ -150,6 +151,52 @@ function WhyChooseUs() {
   );
 }
 
+function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  
+  const faqs = [
+    { q: "What are your salon hours?", a: "Monday to Sunday, 10:00 AM to 8:00 PM." },
+    { q: "Do I need to book an appointment in advance?", a: "While we accept walk-ins, we highly recommend booking in advance to ensure availability, especially for bridal and specialized treatments." },
+    { q: "What brands of products do you use?", a: "We use only premium international brands for our makeup and hair treatments to ensure the best results and care for your skin and hair." },
+    { q: "How can I enroll in the beauty academy?", a: "You can enroll by visiting our academy section, selecting a course, and filling out the inquiry form. Our team will contact you with admission details." },
+    { q: "Do academy courses include certification?", a: "Yes, all our professional academy courses include industry-recognized certifications upon successful completion." }
+  ];
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
+  return (
+    <section className="py-24 bg-white relative z-20">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-4xl">
+        <SectionHeader title="Frequently Asked Questions" subtitle="Got Questions?" />
+        <div className="mt-12">
+          {faqs.map((faq, idx) => (
+            <AccordionItem 
+              key={idx} 
+              title={faq.q} 
+              isOpen={openIndex === idx} 
+              onToggle={() => setOpenIndex(openIndex === idx ? null : idx)}
+            >
+              {faq.a}
+            </AccordionItem>
+          ))}
+        </div>
+      </div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="min-h-screen">
@@ -170,6 +217,8 @@ export default function Home() {
       </section>
 
       <WhyChooseUs />
+      
+      <FAQ />
 
       {/* Instagram Feed Preview */}
       <section className="py-24 text-center">

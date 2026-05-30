@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect } from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { WhatsAppFAB } from './components/ui/WhatsAppFAB';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="/book" element={<BookAppointment />} />
           </Routes>
         </main>
+        <WhatsAppFAB />
         <Footer />
       </div>
     </Router>

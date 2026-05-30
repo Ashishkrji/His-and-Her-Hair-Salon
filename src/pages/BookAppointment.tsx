@@ -9,6 +9,36 @@ export default function BookAppointment() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // Simulate Email Dispatch via Console
+    const formData = new FormData(e.target as HTMLFormElement);
+    const clientName = formData.get('name') || 'Client';
+    const clientEmail = formData.get('email') || 'Not Provided';
+    const clientPhone = formData.get('phone');
+    const service = formData.get('service');
+    const date = formData.get('date');
+    const time = formData.get('time');
+
+    console.log(`
+=========================================
+[EMAIL NOTIFICATION DISPATCHED]
+To: ${clientEmail}
+Cc: appointments@hisandherhairsalon.com
+Subject: Appointment Request Received - His and Her Hair Salon
+
+Dear ${clientName},
+
+Thank you for requesting an appointment for ${service} on ${date} at ${time || 'any available time'}.
+Your request is currently under review by our front desk. Our team will contact you shortly at ${clientPhone} to confirm the exact time and artist availability.
+
+We look forward to serving you!
+
+Best regards,
+His and Her Hair Salon & Academy
+4185, Dhandra Rd, Phase II, Ludhiana
+=========================================
+    `);
+
     // Mock API call
     setTimeout(() => {
       setIsSubmitting(false);
@@ -55,28 +85,28 @@ export default function BookAppointment() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm font-medium text-gray-700 font-poppins">Full Name *</label>
-                  <input required type="text" id="name" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="John Doe" />
+                  <input name="name" required type="text" id="name" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="John Doe" />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="phone" className="text-sm font-medium text-gray-700 font-poppins">Phone Number *</label>
-                  <input required type="tel" id="phone" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="07973117980" />
+                  <input name="phone" required type="tel" id="phone" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="07973117980" />
                 </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium text-gray-700 font-poppins">Email Address</label>
-                  <input type="email" id="email" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="johndoe@example.com" />
+                  <input name="email" type="email" id="email" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins" placeholder="johndoe@example.com" />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="service" className="text-sm font-medium text-gray-700 font-poppins">Service Required *</label>
-                  <select required id="service" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins bg-white">
+                  <select name="service" required id="service" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins bg-white">
                     <option value="">Select a service</option>
-                    <option value="hair">Hair Services</option>
-                    <option value="bridal">Bridal Makeup</option>
-                    <option value="beauty">Beauty & Skin</option>
-                    <option value="academy">Academy Details</option>
-                    <option value="other">Other Inquiry</option>
+                    <option value="Hair Services">Hair Services</option>
+                    <option value="Bridal Makeup">Bridal Makeup</option>
+                    <option value="Beauty & Skin">Beauty & Skin</option>
+                    <option value="Academy Details">Academy Details</option>
+                    <option value="Other">Other Inquiry</option>
                   </select>
                 </div>
               </div>
@@ -84,11 +114,11 @@ export default function BookAppointment() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="date" className="text-sm font-medium text-gray-700 font-poppins">Preferred Date *</label>
-                  <input required type="date" id="date" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins text-gray-700" />
+                  <input name="date" required type="date" id="date" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins text-gray-700" />
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="time" className="text-sm font-medium text-gray-700 font-poppins">Preferred Time</label>
-                  <select id="time" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins bg-white text-gray-700">
+                  <select name="time" id="time" className="w-full h-12 px-4 rounded-lg border border-gray-200 focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors outline-none font-poppins bg-white text-gray-700">
                     <option value="">Any time</option>
                     <option value="morning">Morning (10 AM - 1 PM)</option>
                     <option value="afternoon">Afternoon (1 PM - 4 PM)</option>

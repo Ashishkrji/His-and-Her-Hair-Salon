@@ -1,38 +1,73 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Card, CardContent, CardImage } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Scissors, Sparkles, Droplet, Star } from 'lucide-react';
+import { Scissors, Sparkles, Droplet, Star, ChevronDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const serviceCategories = [
   {
     title: "Hair Services",
     icon: <Scissors className="w-8 h-8 text-secondary mb-4" />,
     image: "https://images.unsplash.com/photo-1560869713-7d0a29430803?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    items: ["Signature Hair Cut", "Hair Styling", "Global Hair Coloring", "Hair Spa", "Keratin Treatment", "Rebonding", "Hair Botox"]
+    items: [
+      { name: "Signature Hair Cut", price: "₹999+" },
+      { name: "Hair Styling", price: "₹799+" },
+      { name: "Global Hair Coloring", price: "₹3499+" },
+      { name: "Hair Spa", price: "₹1499+" },
+      { name: "Keratin Treatment", price: "₹4999+" },
+      { name: "Rebonding", price: "₹5999+" },
+      { name: "Hair Botox", price: "₹6999+" }
+    ]
   },
   {
     title: "Beauty & Skin",
     icon: <Droplet className="w-8 h-8 text-secondary mb-4" />,
     image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    items: ["Advanced Facial Treatments", "Skin Polishing", "Cleanup", "Threading & Waxing", "Bleach", "Skin Rejuvenation"]
+    items: [
+      { name: "Advanced Facial", price: "₹1999+" },
+      { name: "Skin Polishing", price: "₹2499+" },
+      { name: "Cleanup", price: "₹999+" },
+      { name: "Threading & Waxing", price: "₹299+" },
+      { name: "Bleach", price: "₹499+" },
+      { name: "Skin Rejuvenation", price: "₹2999+" }
+    ]
   },
   {
     title: "Bridal Makeup",
     icon: <Sparkles className="w-8 h-8 text-secondary mb-4" />,
     image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    items: ["HD Bridal Makeup", "Airbrush Makeup", "Engagement Look", "Party Makeup", "Reception Styling", "Pre-Bridal Packages"]
+    items: [
+      { name: "HD Bridal Makeup", price: "₹14999" },
+      { name: "Airbrush Makeup", price: "₹19999" },
+      { name: "Engagement Look", price: "₹9999" },
+      { name: "Party Makeup", price: "₹4999" },
+      { name: "Reception Styling", price: "₹11999" },
+      { name: "Pre-Bridal Packages", price: "₹7999+" }
+    ]
   },
   {
     title: "Groom & Men's Styling",
     icon: <Star className="w-8 h-8 text-secondary mb-4" />,
     image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    items: ["Men's Precision Cut", "Beard Styling", "Groom HD Makeup", "Groom Packages", "Hair Spa & Scalp Detox"]
+    items: [
+      { name: "Men's Precision Cut", price: "₹499" },
+      { name: "Beard Styling", price: "₹299" },
+      { name: "Groom HD Makeup", price: "₹4999" },
+      { name: "Groom Packages", price: "₹7999" },
+      { name: "Hair Spa & Scalp Detox", price: "₹999" }
+    ]
   }
 ];
 
 export default function Services() {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
     <div className="pt-24 pb-20">
       <section className="bg-primary/5 py-20 mb-20 text-center">
@@ -70,13 +105,35 @@ export default function Services() {
                 <CardContent className="flex-1 flex flex-col items-center text-center">
                   {category.icon}
                   <h3 className="font-playfair text-xl font-semibold text-primary mb-4">{category.title}</h3>
-                  <ul className="space-y-2 mb-6 flex-1 w-full text-left">
-                    {category.items.map((item, idx) => (
-                      <li key={idx} className="text-sm font-poppins text-gray-600 border-b border-gray-100 pb-2 last:border-0 flex items-center justify-between">
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  
+                  <div className="w-full flex-1 mb-6">
+                    <button 
+                      onClick={() => toggleExpand(index)}
+                      className="w-full flex items-center justify-between py-2 border-b-2 border-gray-100 text-sm font-semibold text-gray-800 hover:text-secondary group-hover:border-secondary transition-colors"
+                    >
+                      <span>View Price List</span>
+                      <ChevronDown className={cn("w-4 h-4 transition-transform", expandedIndex === index ? "rotate-180" : "")} />
+                    </button>
+                    
+                    <AnimatePresence>
+                      {expandedIndex === index && (
+                        <motion.ul 
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="w-full text-left overflow-hidden mt-4 space-y-2"
+                        >
+                          {category.items.map((item, idx) => (
+                            <li key={idx} className="text-sm font-poppins text-gray-600 border-b border-gray-50 pb-2 flex items-center justify-between">
+                              <span>{item.name}</span>
+                              <span className="font-semibold text-primary">{item.price}</span>
+                            </li>
+                          ))}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
                   <Button variant="outline" className="w-full mt-auto group-hover:bg-primary group-hover:text-white" onClick={() => window.location.href = '/book'}>
                     Book Now
                   </Button>

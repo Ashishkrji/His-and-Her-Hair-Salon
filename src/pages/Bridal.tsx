@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
-import { Star, Sparkles, Heart } from 'lucide-react';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Sparkles } from 'lucide-react';
+import { ImageComparison } from '@/components/ui/ImageComparison';
 
 export default function Bridal() {
   return (
@@ -30,7 +32,7 @@ export default function Bridal() {
       </section>
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -62,6 +64,25 @@ export default function Bridal() {
             <img src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Bridal Detail 2" className="w-full h-64 object-cover rounded-xl rounded-bl-[4rem] mt-8" />
           </motion.div>
         </div>
+
+        {/* Before and After Image Comparison Section */}
+        <section className="mb-20">
+          <SectionHeader title="Witness The Transformation" subtitle="Real Results" />
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto"
+          >
+            <ImageComparison 
+              beforeImage="https://images.unsplash.com/photo-1512413914421-262429fa2aab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+              afterImage="https://images.unsplash.com/photo-1594950711105-02dd80f2dca5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+            />
+            <p className="text-center text-gray-500 font-poppins text-sm mt-6">
+              Drag the slider to see the HD Bridal Makeover transformation.
+            </p>
+          </motion.div>
+        </section>
       </div>
     </div>
   );

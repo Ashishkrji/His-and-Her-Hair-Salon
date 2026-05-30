@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Button } from '@/components/ui/Button';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Download } from 'lucide-react';
 
 const courses = [
   {
@@ -32,6 +32,17 @@ const courses = [
 ];
 
 export default function Academy() {
+  const handleDownloadBrochure = (courseTitle: string) => {
+    // Simulate PDF download
+    const element = document.createElement("a");
+    const file = new Blob([`Premium Brochure for ${courseTitle}\n\nFor more details, contact His and Her Hair Salon & Academy.`], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = `${courseTitle.replace(/\s+/g, '_')}_Brochure.txt`;
+    document.body.appendChild(element); // Required for FireFox
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div className="pt-24 pb-20">
       <section className="bg-primary/5 py-20 mb-20 text-center">
@@ -83,7 +94,9 @@ export default function Academy() {
                 </ul>
                 <div className="flex flex-col sm:flex-row gap-4 mt-auto">
                   <Button className="flex-1" onClick={() => window.location.href = '/contact'}>Enroll Now</Button>
-                  <Button variant="outline" className="flex-1" onClick={() => window.location.href = '/contact'}>Inquire</Button>
+                  <Button variant="outline" className="flex-1" onClick={() => handleDownloadBrochure(course.title)}>
+                    <Download className="w-4 h-4 mr-2" /> Brochure
+                  </Button>
                 </div>
               </div>
             </motion.div>
